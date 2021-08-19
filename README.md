@@ -23,6 +23,10 @@ npm run test
 
 We should see failing tests in the output. As we progress through the project, we'll gradually work towards all of the tests passing. Run npm run test at any time to check your work locally.
 
+## To verify your work locally 
+
+npm run test:moduleX
+
 
 ## Running the project
 
