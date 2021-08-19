@@ -1,18 +1,29 @@
-import {fetchWithTimeout} from './services';
-const movies = require('./data/movies.json');
+import { fetchMovies, fetchBooks } from "./services";
+import { fetchWithTimeout } from './services';
 
-//Resolve method
-export function fetchMovies() {
-    //callback function
-    const resolveFunction = () => movies;
-    //return execution of statement
-    return fetchWithTimeout(1000).then(resolveFunction);
+//Fetch both books and movies
+function getBooksAndMovies() {
+    return Promise.all([fetchMovies(), fetchBooks()])
+        .then(([books, movies]) => ({
+            books,
+            movies
+        }))
+        .catch(error => console.log("Error fetching books and movies", error));
 }
-//Execute the fetchMovies() Promise
-//moviePromise is a Promise object
-const moviePromise = fetchMovies();
-//callback function to log the results of the moviePromise object
-//Log the results of the moviePromise object
-moviePromise.then((results) => {
-    console.log(results)
+//Log results
+const getBooksAndMoviesPromise = getBooksAndMovies();
+getBooksAndMoviesPromise.then((results) => {
+    console.log('getBooksAndMoviesPromise', results);
+});
+
+//Fetch either books or movies with Promise.race()
+function getBooksOrMovies() {
+    return Promise.race([fetchBooks(), fetchMovies()])
+        .then(results => results)
+        .catch(error => console.log("Error waiting for the promise race", error));
+}
+//Log results
+const getBooksOrMoviesPromise = getBooksOrMovies();
+getBooksOrMoviesPromise.then((results) => {
+    console.log('getBooksOrMoviesPromise', results);
 });
