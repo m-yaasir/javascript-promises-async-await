@@ -20,9 +20,21 @@ export function fetchBooks() {
         .catch(error => console.log(error));
 }
 
+//Async version of fetch movies
 export async function asyncFetchMovies() {
     try {
         const response = await fetch("/data/movies.json");
+        const results = response.json();
+        return results;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//Async version of fetch books
+export async function asyncFetchBooks() {
+    try {
+        const response = await fetch("/data/books.json");
         const results = response.json();
         return results;
     } catch (error) {
